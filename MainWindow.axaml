@@ -1,0 +1,195 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="700"
+        x:Class="Calculator.MainWindow"
+        Title="Calculator"
+		Width="450"
+		Height="700"
+		Background="LightGray"
+		WindowStartupLocation="CenterScreen">
+	<TabControl Name="Functions">
+		<TabItem Header="Calculator"
+			 VerticalAlignment="Center"
+				 Foreground="Black">
+			<Grid RowDefinitions="Auto,*,*,*,*,*,*"
+				  Background="LightGray"
+				  Margin="0,0,0,10">
+				<StackPanel Grid.Row="0"
+							Background="LightGray">
+					<ScrollViewer HorizontalScrollBarVisibility="Auto"
+								  VerticalScrollBarVisibility="Disabled">
+						<TextBox Name="ExpressionBox"
+					             FontSize="30"
+					             Margin="5,5,5,5"
+					             Foreground="Black"
+								 IsReadOnly="true"
+								 Background="LightGray"
+								 TextAlignment="Left"
+								 BorderThickness="0">
+						</TextBox>
+					</ScrollViewer>
+					<ScrollViewer HorizontalScrollBarVisibility="Auto"
+								  VerticalScrollBarVisibility="Disabled">
+						<TextBox Name="ResultBox"
+							 FontSize="30"
+							 Margin="10,5,10,15"
+							 Foreground="Black"
+							 IsReadOnly="true"
+							 Background="LightGray"
+							 TextAlignment="Right"
+							 BorderThickness="0">
+						</TextBox>
+					</ScrollViewer>
+				</StackPanel>
+				<Grid.Styles>
+					<Style Selector="Button">
+						<Setter	Property="Background" Value="Gray"></Setter>
+						<Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
+						<Setter Property="VerticalAlignment" Value="Stretch"></Setter>
+						<Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
+						<Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+						<Setter Property="FontWeight" Value="DemiBold"></Setter>
+						<Setter Property="FontSize" Value="35"></Setter>
+						<Setter Property="Foreground" Value="Black"></Setter>
+						<Setter Property="Margin" Value="1,1,1,1"></Setter>
+					</Style>
+				</Grid.Styles>
+				<Grid Grid.Row="1"
+					  ColumnDefinitions="*,*,*,*">
+					<Button Grid.Column="0"
+							CornerRadius="13,0,0,0"
+							Content="!"
+							Click="OperatorButton_Click">
+					</Button>
+					<Button Grid.Column="1"
+							Content="^"
+							Click="OperatorButton_Click">
+					</Button>
+					<Button Grid.Column="2"
+							Content="√"
+							Click="OperatorButton_Click">
+					</Button>
+					<Button Grid.Column="3"
+							CornerRadius="0,13,0,0"
+							Content="%"
+							Click="OperatorButton_Click">
+					</Button>
+				</Grid>
+				<Grid Grid.Row="2"
+					  ColumnDefinitions="*,*,*,*">
+					<Button Grid.Column="0"
+							Content="AC"
+							Click="AllClear_Click">
+					</Button>
+					<Button Grid.Column="1"
+							Content="("
+							Click="ParenthesisButton_Click">
+					</Button>
+					<Button Grid.Column="2"
+							Content=")"
+							Click="ParenthesisButton_Click">
+					</Button>
+					<Button Grid.Column="3"
+							Content="/"
+							Click="OperatorButton_Click">
+					</Button>
+				</Grid>
+				<Grid Grid.Row="3"
+					  ColumnDefinitions="*,*,*,*">
+					<Button Grid.Column="0"
+							Content="7"
+							Click="NumberButton_Click">
+					</Button>
+					<Button Grid.Column="1"
+							Content="8"
+							Click="NumberButton_Click">
+					</Button>
+					<Button Grid.Column="2"
+							Content="9"
+							Click="NumberButton_Click">
+					</Button>
+					<Button Grid.Column="3"
+							Content="*"
+							Click="OperatorButton_Click">
+					</Button>
+				</Grid>
+				<Grid Grid.Row="4"
+					  ColumnDefinitions="*,*,*,*">
+					<Button Grid.Column="0"
+							Content="4"
+							Click="NumberButton_Click">
+					</Button>
+					<Button Grid.Column="1"
+							Content="5"
+							Click="NumberButton_Click">
+					</Button>
+					<Button Grid.Column="2"
+							Content="6"
+							Click="NumberButton_Click">
+					</Button>
+					<Button Grid.Column="3"
+							Content="-"
+							Click="OperatorButton_Click">
+					</Button>
+				</Grid>
+				<Grid Grid.Row="5"
+					  ColumnDefinitions="*,*,*,*">
+					<Button Grid.Column="0"
+							Content="1"
+							Click="NumberButton_Click">
+					</Button>
+					<Button Grid.Column="1"
+							Content="2"
+							Click="NumberButton_Click">
+					</Button>
+					<Button Grid.Column="2"
+							Content="3"
+							Click="NumberButton_Click">
+					</Button>
+					<Button Grid.Column="3"
+							Content="+"
+							Click="OperatorButton_Click">
+					</Button>
+				</Grid>
+				<Grid Grid.Row="6"
+					  ColumnDefinitions="*,*,*,*">
+					<Button Grid.Column="0"
+							CornerRadius="0,0,0,13"
+							Content="."
+							Click="NumberButton_Click">
+					</Button>
+					<Button Grid.Column="1"
+							Content="0"
+							Click="NumberButton_Click">
+					</Button>
+					<Button Grid.Column="2"
+							Content="⌫"
+							Click="BackSpaceButton_Click">
+					</Button>
+					<Button Grid.Column="3"
+							CornerRadius="0,0,13,0"
+							Content="="
+							Click="EqualsButton_Click">
+					</Button>
+				</Grid>
+			</Grid>
+		</TabItem>
+		<TabItem Header="NumberConverter"
+				 VerticalAlignment="Center"
+				 Foreground="Black">
+
+		</TabItem>
+		<TabItem Header="UnitConverter"
+				 VerticalAlignment="Center"
+				 Foreground="Black">
+
+		</TabItem>
+		<TabItem Header="Inspector"
+				 VerticalAlignment="Center"
+				 Foreground="Black">
+
+		</TabItem>
+	</TabControl>
+</Window>
