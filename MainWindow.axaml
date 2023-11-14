@@ -2,60 +2,62 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="700"
+        mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="700"
         x:Class="Calculator.MainWindow"
         Title="Calculator"
 		Width="450"
 		Height="700"
 		Background="LightGray"
 		WindowStartupLocation="CenterScreen">
+	<Window.Styles>
+		<Style Selector="Button">
+			<Setter	Property="Background" Value="Gray"></Setter>
+			<Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
+			<Setter Property="VerticalAlignment" Value="Stretch"></Setter>
+			<Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
+			<Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+			<Setter Property="FontWeight" Value="DemiBold"></Setter>
+			<Setter Property="FontSize" Value="35"></Setter>
+			<Setter Property="Foreground" Value="Black"></Setter>
+			<Setter Property="Margin" Value="1,1,1,1"></Setter>
+		</Style>
+	</Window.Styles>
+	<Window.Styles>
+		<Style Selector="ScrollViewer">
+			<Setter Property="HorizontalScrollBarVisibility" Value="Auto"></Setter>
+			<Setter Property="VerticalScrollBarVisibility" Value="Disabled"></Setter>
+		</Style>
+	</Window.Styles>
 	<TabControl Name="Functions">
 		<TabItem Header="Calculator"
 			 VerticalAlignment="Center"
 				 Foreground="Black">
-			<Grid RowDefinitions="Auto,*,*,*,*,*,*"
+			<Grid RowDefinitions="2.5*,*,*,*,*,*,*"
 				  Background="LightGray"
 				  Margin="0,0,0,10">
 				<StackPanel Grid.Row="0"
 							Background="LightGray">
-					<ScrollViewer HorizontalScrollBarVisibility="Auto"
-								  VerticalScrollBarVisibility="Disabled">
+					<ScrollViewer>
 						<TextBox Name="ExpressionBox"
 					             FontSize="30"
-					             Margin="5,5,5,5"
+					             Margin="5,15,5,15"
 					             Foreground="Black"
 								 IsReadOnly="true"
-								 Background="LightGray"
 								 TextAlignment="Left"
 								 BorderThickness="0">
 						</TextBox>
 					</ScrollViewer>
-					<ScrollViewer HorizontalScrollBarVisibility="Auto"
-								  VerticalScrollBarVisibility="Disabled">
+					<ScrollViewer>
 						<TextBox Name="ResultBox"
 							 FontSize="30"
-							 Margin="10,5,10,15"
+							 Margin="5,15,5,15"
 							 Foreground="Black"
 							 IsReadOnly="true"
-							 Background="LightGray"
 							 TextAlignment="Right"
 							 BorderThickness="0">
 						</TextBox>
 					</ScrollViewer>
 				</StackPanel>
-				<Grid.Styles>
-					<Style Selector="Button">
-						<Setter	Property="Background" Value="Gray"></Setter>
-						<Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
-						<Setter Property="VerticalAlignment" Value="Stretch"></Setter>
-						<Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
-						<Setter Property="VerticalContentAlignment" Value="Center"></Setter>
-						<Setter Property="FontWeight" Value="DemiBold"></Setter>
-						<Setter Property="FontSize" Value="35"></Setter>
-						<Setter Property="Foreground" Value="Black"></Setter>
-						<Setter Property="Margin" Value="1,1,1,1"></Setter>
-					</Style>
-				</Grid.Styles>
 				<Grid Grid.Row="1"
 					  ColumnDefinitions="*,*,*,*">
 					<Button Grid.Column="0"
@@ -157,7 +159,7 @@
 					  ColumnDefinitions="*,*,*,*">
 					<Button Grid.Column="0"
 							CornerRadius="0,0,0,13"
-							Content="."
+							Content=","
 							Click="NumberButton_Click">
 					</Button>
 					<Button Grid.Column="1"
@@ -176,20 +178,189 @@
 				</Grid>
 			</Grid>
 		</TabItem>
-		<TabItem Header="NumberConverter"
+		<TabItem Header="Converter"
 				 VerticalAlignment="Center"
 				 Foreground="Black">
-
-		</TabItem>
-		<TabItem Header="UnitConverter"
-				 VerticalAlignment="Center"
-				 Foreground="Black">
+			<Grid RowDefinitions="3*,*,*,*,*,*"
+				  Margin="5,5,5,15">
+				<Grid Grid.Row="0"
+					  RowDefinitions="*,Auto,*">
+					<StackPanel Grid.Row="1">
+						<Grid ColumnDefinitions="*,Auto">
+							<Grid.Styles>
+								<Style Selector="ComboBoxItem">
+									<Setter Property="FontSize" Value="25"></Setter>
+								</Style>
+							</Grid.Styles>
+							<ScrollViewer Grid.Column="0">
+								<TextBox FontSize="30"
+									 Margin="5,5,5,5"
+									 Foreground="Black"
+									 IsReadOnly="true"
+									 TextAlignment="Left"
+									 BorderThickness="0">
+								</TextBox>
+							</ScrollViewer>
+							<ComboBox Grid.Column="1"
+									  SelectedIndex="2"
+									  FontSize="25">
+								<ComboBoxItem>Binary</ComboBoxItem>
+								<ComboBoxItem>Octal</ComboBoxItem>
+								<ComboBoxItem>Decimal</ComboBoxItem>
+								<ComboBoxItem>Hexadicemal</ComboBoxItem>
+							</ComboBox>
+						</Grid>
+						<Label FontSize="30">
+							equals to:
+						</Label>
+						<Grid ColumnDefinitions="*,Auto">
+							<Grid.Styles>
+								<Style Selector="ComboBoxItem">
+									<Setter Property="FontSize" Value="25"></Setter>
+								</Style>
+							</Grid.Styles>
+							<ScrollViewer Grid.Column="0">
+								<TextBox FontSize="30"
+									 Margin="5,5,5,5"
+									 Foreground="Black"
+									 IsReadOnly="true"
+									 TextAlignment="Left"
+									 BorderThickness="0">
+								</TextBox>
+							</ScrollViewer>
+							<ComboBox Grid.Column="1"
+									  SelectedIndex="0"
+									  FontSize="25">
+								<ComboBoxItem>Binary</ComboBoxItem>
+								<ComboBoxItem>Octal</ComboBoxItem>
+								<ComboBoxItem>Decimal</ComboBoxItem>
+								<ComboBoxItem>Hexadicemal</ComboBoxItem>
+							</ComboBox>
+						</Grid>
+					</StackPanel>
+					
+				</Grid>
+				<Grid Grid.Row="1"
+						  ColumnDefinitions="*,*">
+					<Button Grid.Column="0"
+							Content="CE"
+							CornerRadius="13,0,0,0">
+					</Button>
+					<Button Grid.Column="1"
+							Content="⌫"
+							CornerRadius="0,13,0,0">
+					</Button>
+				</Grid>
+				<Grid Grid.Row="2"
+					  ColumnDefinitions="*,*,*">
+					<Button Grid.Column="0"
+							Content="7"></Button>
+					<Button Grid.Column="1"
+							Content="8"></Button>
+					<Button Grid.Column="2"
+							Content="9"></Button>
+				</Grid>
+				<Grid Grid.Row="3"
+					  ColumnDefinitions="*,*,*">
+					<Button Grid.Column="0"
+							Content="4"></Button>
+					<Button Grid.Column="1"
+							Content="5"></Button>
+					<Button Grid.Column="2"
+							Content="6"></Button>
+				</Grid>
+				<Grid Grid.Row="4"
+					  ColumnDefinitions="*,*,*">
+					<Button Grid.Column="0"
+							Content="1"></Button>
+					<Button Grid.Column="1"
+							Content="2"></Button>
+					<Button Grid.Column="2"
+							Content="3"></Button>
+				</Grid>
+				<Grid Grid.Row="5"
+					  ColumnDefinitions="*,*,*">
+					<Button Grid.Column="0"
+							Content="+/-"
+							CornerRadius="0,0,0,13"></Button>
+					<Button Grid.Column="1"
+							Content="0"></Button>
+					<Button Grid.Column="2"
+							Content="Convert"
+							CornerRadius="0,0,13,0"></Button>
+				</Grid>
+			</Grid>
 
 		</TabItem>
 		<TabItem Header="Inspector"
 				 VerticalAlignment="Center"
 				 Foreground="Black">
-
+			<Grid RowDefinitions="4*,*,*,*,*"
+				  Margin="5,5,5,5">
+				<Grid Grid.Row="0"
+					  RowDefinitions="Auto,*">
+					<TextBox Grid.Row="0"
+							 FontSize="30"
+							 TextAlignment="Left"
+							 IsReadOnly="True"
+							 BorderThickness="0"
+							 Margin="5,5,5,5">
+					</TextBox>
+					<ScrollViewer Grid.Row="1"
+								  HorizontalScrollBarVisibility="Disabled"
+								  VerticalScrollBarVisibility="Auto"
+								  Margin="5,5,5,15">
+						<TextBox FontSize="30"
+							 TextAlignment="Left"
+							 IsReadOnly="True"
+							 BorderThickness="0"
+							 TextWrapping="Wrap"
+							 AcceptsReturn="True">
+						</TextBox>
+					</ScrollViewer>
+				</Grid>
+				<Grid Grid.Row="1"
+					  ColumnDefinitions="*,*,*">
+					<Button Grid.Column="0"
+							Content="4"
+							CornerRadius="13,0,0,0"></Button>
+					<Button Grid.Column="1"
+							Content="5"></Button>
+					<Button Grid.Column="2"
+							Content="6"
+							CornerRadius="0,13,0,0"></Button>
+				</Grid>
+				<Grid Grid.Row="2"
+					  ColumnDefinitions="*,*,*">
+					<Button Grid.Column="0"
+							Content="1"></Button>
+					<Button Grid.Column="1"
+							Content="2"></Button>
+					<Button Grid.Column="2"
+							Content="3"></Button>
+				</Grid>
+				<Grid Grid.Row="3"
+					  ColumnDefinitions="*,*,*">
+					<Button Grid.Column="0"
+							Content="7"></Button>
+					<Button Grid.Column="1"
+							Content="8"></Button>
+					<Button Grid.Column="2"
+							Content="9"></Button>
+				</Grid>
+				<Grid Grid.Row="4"
+					  ColumnDefinitions="*,*,*">
+					<Button Grid.Column="0"
+							Content="⌫"
+							CornerRadius="0,0,0,13"></Button>
+					<Button Grid.Column="1"
+							Content="0"></Button>
+					<Button Grid.Column="2"
+							Content="Inspect"
+							FontSize="28"
+							CornerRadius="0,0,13,0"></Button>
+				</Grid>
+			</Grid>
 		</TabItem>
 	</TabControl>
 </Window>

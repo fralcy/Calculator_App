@@ -39,7 +39,7 @@ namespace Calculator
                 return content.Equals(other.content);
             }
         }
-        static List<Component> components = new List<Component>();
+        static readonly List<Component> components = new List<Component>();
         static bool error = false;
         static int FindIndex(List<Component> components, Component component)
         {
@@ -81,7 +81,7 @@ namespace Calculator
                 }
                 else
                 {
-                    while (i < expression.Length && (char.IsDigit(expression[i]) || expression[i] == '.'))
+                    while (i < expression.Length && (char.IsDigit(expression[i]) || expression[i] == ','))
                     {
                         temp += expression[i];
                         i++;
@@ -127,7 +127,7 @@ namespace Calculator
         }
         static void ApplySquareRoot(List<Component> components)
         {
-            int index = FindIndex(components, new Component("√"));
+            int index = FindLastIndex(components, new Component("√"));
             if (index >= 0)
             {
                 if (double.TryParse(components[index + 1].Content, out double n))
@@ -386,7 +386,7 @@ namespace Calculator
         private void NumberButton_Click(object sender, RoutedEventArgs e)
         {
             Button button = (Button)sender;
-            if (button.Content == ".")
+            if (button.Content.Equals(","))
             {
                 if (!string.IsNullOrEmpty(ExpressionBox.Text))
                 {
@@ -442,7 +442,7 @@ namespace Calculator
                 case "%":
                 case "+":
                 case "-":
-                    if (ExpressionBox.Text != string.Empty)
+                    if (!string.IsNullOrEmpty(ExpressionBox.Text))
                     {
                         if (char.IsDigit(ExpressionBox.Text[ExpressionBox.Text.Length - 1]) || ExpressionBox.Text[ExpressionBox.Text.Length - 1] == ')' || ExpressionBox.Text[ExpressionBox.Text.Length - 1] == '!')
                         {
@@ -455,7 +455,7 @@ namespace Calculator
         private void ParenthesisButton_Click(object sender, RoutedEventArgs e)
         {
             Button button = (Button)sender;
-            if (button.Content == "(")
+            if (button.Content.Equals("("))
             {
                 if (string.IsNullOrEmpty(ExpressionBox.Text))
                 {
@@ -468,7 +468,7 @@ namespace Calculator
             }
             else
             {
-                if (ExpressionBox.Text != string.Empty)
+                if (!string.IsNullOrEmpty(ExpressionBox.Text))
                 {
                     if (char.IsDigit(ExpressionBox.Text[ExpressionBox.Text.Length - 1]))
                     {
