@@ -281,6 +281,7 @@ namespace Calculator
         }
         static void Evaluate(List<Component> components)
         {
+            int i;
             while (components.Count > 1 && !error)
             {
                 int maxPriority = MaxPriority(components);
@@ -290,16 +291,37 @@ namespace Calculator
                         ApplyFactirial(components);
                         break;
                     case 3:
-                        ApplySquareRoot(components);
+                        for (i = 0;i<components.Count;i++)
+                        {
+                            if (components[i].Priority == maxPriority)
+                                break;
+                        }
+                        if(components[i].Content== "√")
+                            ApplySquareRoot(components);
+                        else
                         ApplyExponentiation(components);
                         break;
                     case 2:
-                        ApplyMultiplication(components);
-                        ApplyDivision(components);
-                        ApplyModulo(components);
+                        for (i = 0; i < components.Count; i++)
+                        {
+                            if (components[i].Priority == maxPriority)
+                                break;
+                        }
+                        if (components[i].Content == "*")
+                            ApplyMultiplication(components);
+                        else if (components[i].Content == "/")
+                            ApplyDivision(components);
+                        else
+                            ApplyModulo(components);
                         break;
                     case 1:
-                        ApplyAddition(components);
+                        for (i = 0; i < components.Count; i++)
+                        {
+                            if (components[i].Priority == maxPriority)
+                                break;
+                        }
+                        if (components[i].Content == "+")
+                            ApplyAddition(components);
                         ApplySubtraction(components);
                         break;
                 }
