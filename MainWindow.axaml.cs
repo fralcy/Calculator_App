@@ -2,11 +2,15 @@ using Avalonia.Controls;
 using System.Collections.Generic;
 using System;
 using Avalonia.Interactivity;
+using Microsoft.CodeAnalysis.FlowAnalysis;
+using Avalonia;
 
 namespace Calculator
 {
     public partial class MainWindow : Window
     {
+        //Data structures and algorithms
+        //Calculator
         class Component
         {
             private string content;
@@ -69,7 +73,6 @@ namespace Calculator
             }
             return lastIndex;
         }
-        //get expression, seperate components and know their priorities
         static void Input(List<Component> components, string expression)
         {
             string temp = string.Empty;
@@ -106,18 +109,14 @@ namespace Calculator
         }
         static void ApplyFactirial(List<Component> components)
         {
-            //create the "!" component to search its index in the expression
             int index = FindIndex(components, new Component("!"));
-            //check if the previous compent is number
             if (int.TryParse(components[index - 1].Content, out int n))
             {
                 double result = 1;
-                //calculate the result of factorial operation
                 for (int i = 1; i <= n; i++)
                 {
                     result *= i;
                 }
-                //remove the old number and the factorial sign then inssert the result of this operation
                 components.RemoveAt(index - 1);
                 components.RemoveAt(index - 1);
                 components.Insert(index - 1, new Component(result.ToString()));
@@ -333,13 +332,11 @@ namespace Calculator
         }
         static void RemoveParenthesis(List<Component> components)
         {
-            //find the indexes of two parenthesis
             int openParenthesisIndex, closeParenthesisIndex;
             openParenthesisIndex = FindLastIndex(components, new Component("("));
             if (openParenthesisIndex != -1)
             {
                 closeParenthesisIndex = FindIndex(components, new Component(")"), openParenthesisIndex);
-                //if one of them is missing
                 if (closeParenthesisIndex == -1)
                 {
                     error = true;
@@ -347,7 +344,6 @@ namespace Calculator
                 }
                 else
                 {
-                    //get subexpression in the parenthesises and count the components
                     int count = 0;
                     List<Component> newComponents = new List<Component>();
                     for (int i = openParenthesisIndex + 1; i < closeParenthesisIndex; i++)
@@ -355,14 +351,11 @@ namespace Calculator
                         newComponents.Add(components[i]);
                         count++;
                     }
-                    //evaluate it
                     Evaluate(newComponents);
-                    //remove the subexpression and two parenthesis
                     for (int i = 0; i < count + 2; i++)
                     {
                         components.RemoveAt(openParenthesisIndex);
                     }
-                    //push the result back to the main expression
                     components.Insert(openParenthesisIndex, newComponents[0]);
                 }
 
@@ -395,15 +388,152 @@ namespace Calculator
                 Console.WriteLine(components[0].Content);
             }
         }
+        //Converter
+        static int SymbolToValue(char digit)
+        {
+            switch (digit)
+            {
+                case '1':
+                    return 1;
+                case '2':
+                    return 2;
+                case '3':
+                    return 3;
+                case '4':
+                    return 4;
+                case '5':
+                    return 5;
+                case '6':
+                    return 6;
+                case '7':
+                    return 7;
+                case '8':
+                    return 8;
+                case '9':
+                    return 9;
+                case 'A':
+                    return 10;
+                case 'B':
+                    return 11;
+                case 'C':
+                    return 12;
+                case 'D':
+                    return 13;
+                case 'E':
+                    return 14;
+                case 'F':
+                    return 15;
+                default:
+                    return 0;
+            }
+        }
+        static char ValueToSymbol(int value)
+        {
+            switch(value)
+            {
+                case 1:
+                    return '1';
+                case 2:
+                    return '2';
+                case 3:
+                    return '3';
+                case 4:
+                    return '4';
+                case 5:
+                    return '5';
+                case 6:
+                    return '6';
+                case 7:
+                    return '7';
+                case 8:
+                    return '8';
+                case 9:
+                    return '9';
+                case 10:
+                    return 'A';
+                case 11:
+                    return 'B';
+                case 12:
+                    return 'C';
+                case 13:
+                    return 'D';
+                case 14:
+                    return 'E';
+                case 15:
+                    return 'F';
+                default:
+                    return '0';
+            }
+        }
+        static int GetBaseNumber(string basenumbersystem)
+        {
+            switch(basenumbersystem)
+            {
+                case "Binary":
+                    return 2;
+                case "Octal":
+                    return 8;
+                case "Hexadecimal":
+                    return 16;
+                default:
+                    return 10;
+            }
+        }
+        static string ConvertToDecimal(string number, string numeralSystem)
+        {
+            double result = 0;
+            int baseNumber = GetBaseNumber(numeralSystem);
+            for (int i = 0; i < number.Length; i++)
+            {
+                result += SymbolToValue(number[number.Length - i - 1]) * Math.Pow(baseNumber, i);
+            }
+            return result.ToString();
+        }
+        static string ConvertFromDecimal(string number, string numeralSystem)
+        {
+            int baseNumber = GetBaseNumber(numeralSystem), temp = int.Parse(number);
+            List<char> remainers = new List<char>();
+            while (temp != 0)
+            {
+                remainers.Add(ValueToSymbol(temp % baseNumber));
+                temp /= baseNumber;
+            }
+            string result = string.Empty;
+            for (int i = 0; i < remainers.Count; i++)
+            {
+                result += remainers[remainers.Count - i - 1];
+            }
+            return result;
+        }
+        static string Convert(string number, string inputBaseSystem, string outputBaseSystem)
+        {
+            if (inputBaseSystem == outputBaseSystem)
+                return number;
+            else if (inputBaseSystem == "Decimal")
+            {
+                return ConvertFromDecimal(number, outputBaseSystem);
+            }
+            else if (outputBaseSystem == "Decimal")
+            {
+                return ConvertToDecimal(number, inputBaseSystem);
+            }
+            else
+            {
+                return ConvertFromDecimal(ConvertToDecimal(number, inputBaseSystem), outputBaseSystem);
+            }
+        }
+        //Initalize Window
         public MainWindow()
         {
             InitializeComponent();
         }
+        //Events Handlers
+        //Calculator
         bool isDecimal = false;
         private void AllClear_Click(object sender, RoutedEventArgs e)
         {
-            ExpressionBox.Text = string.Empty;
-            ResultBox.Text = string.Empty;
+            ExpressionBox?.Clear();
+            ResultBox?.Clear();
         }
         private void NumberButton_Click(object sender, RoutedEventArgs e)
         {
@@ -520,6 +650,40 @@ namespace Calculator
                 {
                     ResultBox.Text = "Error";
                 }
+            }
+        }
+        //Converter
+        private void NumberButton_Click2(object sender, RoutedEventArgs e)
+        {
+            Button button = (Button)sender;
+            int baseNumber = GetBaseNumber((InputBaseSystemBox.SelectedItem as ComboBoxItem).Content.ToString());
+            if (SymbolToValue(button.Content.ToString()[0]) < baseNumber)
+            {
+                if (InputNumberBox.Text == "0")
+                {
+                    InputNumberBox.Text = button.Content.ToString();
+                }
+                else
+                {
+                    InputNumberBox.Text += button.Content.ToString()[0];
+                }
+            }
+        }
+        private void ClearAndEraseButton_Click(object sender, RoutedEventArgs e)
+        {
+            InputNumberBox?.Clear();
+            OutputNumberBox?.Clear();
+        }
+        private void BackSpaceButton_Click2(object sender, RoutedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(InputNumberBox.Text))
+                InputNumberBox.Text = InputNumberBox.Text.Remove(InputNumberBox.Text.Length - 1);
+        }
+        private void ConvertButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(InputNumberBox.Text))
+            {
+                OutputNumberBox.Text = Convert(InputNumberBox.Text, (InputBaseSystemBox.SelectedItem as ComboBoxItem).Content.ToString(), (OutputBaseSystemBox.SelectedItem as ComboBoxItem).Content.ToString());
             }
         }
     }

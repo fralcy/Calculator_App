@@ -198,16 +198,18 @@
 									 Foreground="Black"
 									 IsReadOnly="true"
 									 TextAlignment="Left"
-									 BorderThickness="0">
+									 BorderThickness="0"
+									 Name="InputNumberBox">
 								</TextBox>
 							</ScrollViewer>
 							<ComboBox Grid.Column="1"
-									  SelectedIndex="2"
-									  FontSize="25">
-								<ComboBoxItem>Binary</ComboBoxItem>
-								<ComboBoxItem>Octal</ComboBoxItem>
-								<ComboBoxItem>Decimal</ComboBoxItem>
-								<ComboBoxItem>Hexadicemal</ComboBoxItem>
+									  FontSize="25"
+									  Name="InputBaseSystemBox"
+									  SelectedIndex="0">
+								<ComboBoxItem Content="Binary"></ComboBoxItem>
+								<ComboBoxItem Content="Octal"></ComboBoxItem>
+								<ComboBoxItem Content="Decimal"></ComboBoxItem>
+								<ComboBoxItem Content="Hexadicemal"></ComboBoxItem>
 							</ComboBox>
 						</Grid>
 						<Label FontSize="30">
@@ -225,69 +227,97 @@
 									 Foreground="Black"
 									 IsReadOnly="true"
 									 TextAlignment="Left"
-									 BorderThickness="0">
+									 BorderThickness="0"
+									 Name="OutputNumberBox">
 								</TextBox>
 							</ScrollViewer>
 							<ComboBox Grid.Column="1"
-									  SelectedIndex="0"
-									  FontSize="25">
-								<ComboBoxItem>Binary</ComboBoxItem>
-								<ComboBoxItem>Octal</ComboBoxItem>
-								<ComboBoxItem>Decimal</ComboBoxItem>
-								<ComboBoxItem>Hexadicemal</ComboBoxItem>
+									  FontSize="25"
+									  Name="OutputBaseSystemBox"
+									  SelectedIndex="2">
+								<ComboBoxItem Content="Binary"></ComboBoxItem>
+								<ComboBoxItem Content="Octal"></ComboBoxItem>
+								<ComboBoxItem Content="Decimal"></ComboBoxItem>
+								<ComboBoxItem Content="Hexadicemal"></ComboBoxItem>
 							</ComboBox>
 						</Grid>
 					</StackPanel>
-					
 				</Grid>
 				<Grid Grid.Row="1"
-						  ColumnDefinitions="*,*">
+					  ColumnDefinitions="*,*,*,*">
 					<Button Grid.Column="0"
-							Content="CE"
-							CornerRadius="13,0,0,0">
-					</Button>
+							Content="C"
+							CornerRadius="13,0,0,0"
+							Click="NumberButton_Click2"></Button>
 					<Button Grid.Column="1"
-							Content="⌫"
-							CornerRadius="0,13,0,0">
-					</Button>
+							Content="D"
+							Click="NumberButton_Click2"></Button>
+					<Button Grid.Column="2"
+							Content="E"
+							Click="NumberButton_Click2"></Button>
+					<Button Grid.Column="3"
+							Content="F"
+							CornerRadius="0,13,0,0"
+							Click="NumberButton_Click2"></Button>
 				</Grid>
 				<Grid Grid.Row="2"
-					  ColumnDefinitions="*,*,*">
+					  ColumnDefinitions="*,*,*,*">
 					<Button Grid.Column="0"
-							Content="7"></Button>
+							Content="8"
+							Click="NumberButton_Click2"></Button>
 					<Button Grid.Column="1"
-							Content="8"></Button>
+							Content="9"
+							Click="NumberButton_Click2"></Button>
 					<Button Grid.Column="2"
-							Content="9"></Button>
+							Content="A"
+							Click="NumberButton_Click2"></Button>
+					<Button Grid.Column="3"
+							Content="B"
+							Click="NumberButton_Click2"></Button>
 				</Grid>
 				<Grid Grid.Row="3"
-					  ColumnDefinitions="*,*,*">
+					  ColumnDefinitions="*,*,*,*">
 					<Button Grid.Column="0"
-							Content="4"></Button>
+							Content="4"
+							Click="NumberButton_Click2"></Button>
 					<Button Grid.Column="1"
-							Content="5"></Button>
+							Content="5"
+							Click="NumberButton_Click2"></Button>
 					<Button Grid.Column="2"
-							Content="6"></Button>
+							Content="6"
+							Click="NumberButton_Click2"></Button>
+					<Button Grid.Column="3"
+							Content="7"
+							Click="NumberButton_Click2"></Button>
 				</Grid>
 				<Grid Grid.Row="4"
-					  ColumnDefinitions="*,*,*">
+					  ColumnDefinitions="*,*,*,*">
 					<Button Grid.Column="0"
-							Content="1"></Button>
+							Content="0"
+							Click="NumberButton_Click2"></Button>
 					<Button Grid.Column="1"
-							Content="2"></Button>
+							Content="1"
+							Click="NumberButton_Click2"></Button>
 					<Button Grid.Column="2"
-							Content="3"></Button>
+							Content="2"
+							Click="NumberButton_Click2"></Button>
+					<Button Grid.Column="3"
+							Content="3"
+							Click="NumberButton_Click2"></Button>
 				</Grid>
 				<Grid Grid.Row="5"
-					  ColumnDefinitions="*,*,*">
+					  ColumnDefinitions="*,*,2*">
 					<Button Grid.Column="0"
-							Content="+/-"
-							CornerRadius="0,0,0,13"></Button>
+							Content="CE"
+							CornerRadius="0,0,0,13"
+							Click="ClearAndEraseButton_Click"></Button>
 					<Button Grid.Column="1"
-							Content="0"></Button>
+							Content="⌫"
+							Click="BackSpaceButton_Click2"></Button>
 					<Button Grid.Column="2"
 							Content="Convert"
-							CornerRadius="0,0,13,0"></Button>
+							CornerRadius="0,0,13,0"
+							Click="ConvertButton_Click"></Button>
 				</Grid>
 			</Grid>
 
@@ -322,15 +352,24 @@
 				<Grid Grid.Row="1"
 					  ColumnDefinitions="*,*,*">
 					<Button Grid.Column="0"
-							Content="4"
+							Content="7"
 							CornerRadius="13,0,0,0"></Button>
 					<Button Grid.Column="1"
-							Content="5"></Button>
+							Content="8"></Button>
 					<Button Grid.Column="2"
-							Content="6"
+							Content="9"
 							CornerRadius="0,13,0,0"></Button>
 				</Grid>
 				<Grid Grid.Row="2"
+					  ColumnDefinitions="*,*,*">
+					<Button Grid.Column="0"
+							Content="4"></Button>
+					<Button Grid.Column="1"
+							Content="5"></Button>
+					<Button Grid.Column="2"
+							Content="6"></Button>
+				</Grid>
+				<Grid Grid.Row="3"
 					  ColumnDefinitions="*,*,*">
 					<Button Grid.Column="0"
 							Content="1"></Button>
@@ -338,15 +377,6 @@
 							Content="2"></Button>
 					<Button Grid.Column="2"
 							Content="3"></Button>
-				</Grid>
-				<Grid Grid.Row="3"
-					  ColumnDefinitions="*,*,*">
-					<Button Grid.Column="0"
-							Content="7"></Button>
-					<Button Grid.Column="1"
-							Content="8"></Button>
-					<Button Grid.Column="2"
-							Content="9"></Button>
 				</Grid>
 				<Grid Grid.Row="4"
 					  ColumnDefinitions="*,*,*">
