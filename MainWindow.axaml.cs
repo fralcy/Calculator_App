@@ -4,6 +4,8 @@ using System;
 using Avalonia.Interactivity;
 using Microsoft.CodeAnalysis.FlowAnalysis;
 using Avalonia;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.VisualBasic;
 
 namespace Calculator
 {
@@ -44,7 +46,7 @@ namespace Calculator
             }
         }
         static readonly List<Component> components = new List<Component>();
-        static bool error = false;
+        static string error = string.Empty;
         static int FindIndex(List<Component> components, Component component)
         {
             for (int i = 0; i < components.Count; i++)
@@ -122,7 +124,7 @@ namespace Calculator
                 components.Insert(index - 1, new Component(result.ToString()));
             }
             else
-                error = true;
+                error = "Error";
         }
         static void ApplySquareRoot(List<Component> components)
         {
@@ -139,10 +141,10 @@ namespace Calculator
                         components.Insert(index, new Component(result.ToString()));
                     }
                     else
-                        error = true;
+                        error = "Error";
                 }
                 else
-                    error = true;
+                    error = "Error";
             }
         }
         static void ApplyExponentiation(List<Component> components)
@@ -160,7 +162,7 @@ namespace Calculator
                 }
                 else
                 {
-                    error = true;
+                    error = "Error";
                     return;
                 }
             }
@@ -180,7 +182,7 @@ namespace Calculator
                 }
                 else
                 {
-                    error = true;
+                    error = "Error";
                     return;
                 }
             }
@@ -194,7 +196,7 @@ namespace Calculator
                 {
                     if (b == 0)
                     {
-                        error = true;
+                        error = "Divided by 0";
                         return;
                     }
                     double result = a / b;
@@ -205,7 +207,7 @@ namespace Calculator
                 }
                 else
                 {
-                    error = true;
+                    error = "Error";
                     return;
                 }
             }
@@ -227,13 +229,13 @@ namespace Calculator
                     }
                     else
                     {
-                        error = true;
+                        error = "Error";
                         return;
                     }
                 }
                 else
                 {
-                    error = true;
+                    error = "Error";
                     return;
                 }
             }
@@ -253,7 +255,7 @@ namespace Calculator
                 }
                 else
                 {
-                    error = true;
+                    error = "Error";
                     return;
                 }
             }
@@ -273,7 +275,7 @@ namespace Calculator
                 }
                 else
                 {
-                    error = true;
+                    error = "Error";
                     return;
                 }
             }
@@ -281,7 +283,7 @@ namespace Calculator
         static void Evaluate(List<Component> components)
         {
             int i;
-            while (components.Count > 1 && !error)
+            while (components.Count > 1 && string.IsNullOrEmpty(error))
             {
                 int maxPriority = MaxPriority(components);
                 switch (maxPriority)
@@ -325,7 +327,7 @@ namespace Calculator
                         break;
                 }
             }
-            if (error)
+            if (!string.IsNullOrEmpty(error))
             {
                 return;
             }
@@ -339,7 +341,7 @@ namespace Calculator
                 closeParenthesisIndex = FindIndex(components, new Component(")"), openParenthesisIndex);
                 if (closeParenthesisIndex == -1)
                 {
-                    error = true;
+                    error = "Missing parenthesis";
                     return;
                 }
                 else
@@ -361,11 +363,11 @@ namespace Calculator
 
             }
             else
-                error = true;
+                error = "Missing parenthesis";
         }
         static void Execute(List<Component> components)
         {
-            while (components.Count > 1 && !error)
+            while (components.Count > 1 && string.IsNullOrEmpty(error))
             {
                 int maxPriority = MaxPriority(components);
                 switch (maxPriority)
@@ -377,15 +379,6 @@ namespace Calculator
                         Evaluate(components);
                         break;
                 }
-            }
-            if (error)
-            {
-                Console.WriteLine("Error");
-                return;
-            }
-            if (components.Count == 1)
-            {
-                Console.WriteLine(components[0].Content);
             }
         }
         //Converter
@@ -493,6 +486,7 @@ namespace Calculator
         {
             int baseNumber = GetBaseNumber(numeralSystem), temp = int.Parse(number);
             List<char> remainers = new List<char>();
+            if (temp == 0) return "0";
             while (temp != 0)
             {
                 remainers.Add(ValueToSymbol(temp % baseNumber));
@@ -507,6 +501,12 @@ namespace Calculator
         }
         static string Convert(string number, string inputBaseSystem, string outputBaseSystem)
         {
+            int basenumber = GetBaseNumber(inputBaseSystem);
+            foreach (char item in number)
+            {
+                if (SymbolToValue(item) >= basenumber)
+                    return "Invalid Input";
+            }
             if (inputBaseSystem == outputBaseSystem)
                 return number;
             else if (inputBaseSystem == "Decimal")
@@ -521,6 +521,113 @@ namespace Calculator
             {
                 return ConvertFromDecimal(ConvertToDecimal(number, inputBaseSystem), outputBaseSystem);
             }
+        }
+        //Inpector
+        static List<int> divisors = new List<int>();
+        static void GetDivisors(int number)
+        {
+            divisors.Clear();
+            divisors.Add(1);
+            for(int i =2;i<number;i++)
+            {
+                if(number%i==0)
+                { 
+                    divisors.Add(i);
+                }
+            }
+            divisors.Add(number);
+        }
+        static string IsPrimeOrComposite()
+        {
+            if (divisors.Count == 2)
+                return "prime";
+            return "composite";
+        }
+        static bool IsSquare(int number)
+        {
+            int s = (int)Math.Sqrt(number);
+            return (s * s == number);
+        }
+        static bool IsCube(int number)
+        {
+            int c = (int)Math.Cbrt(number);
+            return (c * c * c == number);
+        }
+        static bool IsPerfect(int number)
+        {
+            int sum = 0;
+            for (int i = 0; i < divisors.Count - 1; i++)
+            {
+                sum += divisors[i];
+            }
+            if (sum == number)
+                return true;
+            return false;
+        }
+        static bool IsTriangular(int number)
+        {
+            int sum = 0;
+            for (int i = 1; sum < number; i++)
+            {
+                sum += i;
+            }
+            if(sum == number)
+                return true;
+            return false;
+        }
+        static bool IsFibonacci(int n)
+        {
+            return IsSquare(5 * n * n + 4) || IsSquare(5 * n * n - 4);
+        }
+        static string IsAbundantOrDeficient(int number)
+        {
+            if (IsPrimeOrComposite() == "prime")
+                return "deficient";
+            else
+            {
+                int sum = 0;
+                for (int i = 0; i < divisors.Count - 1; i++)
+                {
+                    sum += divisors[i];
+                }
+                if (sum < number)
+                    return "deficient";
+                return "abundant";
+            }
+        }
+        static string Inpect(int number)
+        {
+            string result = string.Empty;
+            GetDivisors(number);
+            result += ("- " +number+ " is " + IsPrimeOrComposite() + ".\n");
+            result += ("- Divisors: ");
+            for (int i = 0;i< divisors.Count - 1;i++)
+            {
+                result += (divisors[i].ToString() + ", ");
+            }
+            result += (divisors[divisors.Count - 1].ToString()+".\n");
+            if (IsSquare(number))
+            {
+                result += ("- " +number+ " is square.\n");
+            }
+            if (IsCube(number))
+            {
+                result +=( "- " +number+ " is cube.\n");
+            }
+            if (IsPerfect(number))
+            {
+                result += ("- " +number+ " is perfect.\n");
+            }
+            if (IsTriangular(number))
+            {
+                result += ("- " +number+ " is triangular.\n");
+            }
+            if (IsFibonacci(number))
+            {
+                result += ("- " +number+ " is fibonacci.\n");
+            }
+            result += ("- " +number+ " is " + IsAbundantOrDeficient(number) + ".\n");
+            return result;
         }
         //Initalize Window
         public MainWindow()
@@ -558,7 +665,7 @@ namespace Calculator
                 }
                 else if (ExpressionBox.Text[ExpressionBox.Text.Length - 1] != ')' && ExpressionBox.Text[ExpressionBox.Text.Length - 1] != '!')
                 {
-                    if (!char.IsDigit(ExpressionBox.Text[ExpressionBox.Text.Length - 1]))
+                    if (!char.IsDigit(ExpressionBox.Text[ExpressionBox.Text.Length - 1]) && ExpressionBox.Text[ExpressionBox.Text.Length - 1]!=',')
                         isDecimal = false;
                     ExpressionBox.Text += button.Content;
                 }
@@ -638,18 +745,23 @@ namespace Calculator
         {
             if (!string.IsNullOrEmpty(ExpressionBox.Text))
             {
-                error = false;
+                error = string.Empty;
                 components.Clear();
                 Input(components, ExpressionBox.Text);
-                Execute(components);
-                if (!error)
+                if (components[components.Count-1].Priority==0|| components[components.Count - 1].Content==")"|| components[components.Count - 1].Content=="!") 
                 {
-                    ResultBox.Text = components[0].Content;
+                    Execute(components);
+                    if (string.IsNullOrEmpty(error))
+                    {
+                        ResultBox.Text = components[0].Content;
+                    }
+                    else
+                    {
+                        ResultBox.Text = error;
+                    }
+                    return;
                 }
-                else
-                {
-                    ResultBox.Text = "Error";
-                }
+                ResultBox.Text = "Missing Operand";
             }
         }
         //Converter
@@ -665,7 +777,7 @@ namespace Calculator
                 }
                 else
                 {
-                    InputNumberBox.Text += button.Content.ToString()[0];
+                    InputNumberBox.Text += button.Content.ToString();
                 }
             }
         }
@@ -685,6 +797,30 @@ namespace Calculator
             {
                 OutputNumberBox.Text = Convert(InputNumberBox.Text, (InputBaseSystemBox.SelectedItem as ComboBoxItem).Content.ToString(), (OutputBaseSystemBox.SelectedItem as ComboBoxItem).Content.ToString());
             }
+        }
+        private void NumberButton_Click3(object sender, RoutedEventArgs e)
+        {
+            Button button = (Button)sender;
+            if (string.IsNullOrEmpty(NumberBox.Text))
+            {
+                if (button.Content != "0")
+                    NumberBox.Text += button.Content;
+            }
+            else
+            {
+                NumberBox.Text += button.Content;
+            }
+        }
+        private void BackSpaceButton_Click3(object sender, RoutedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(NumberBox.Text))
+                NumberBox.Text = NumberBox.Text.Remove(NumberBox.Text.Length - 1);
+        }
+        private void InspectButton_Click(object sender, RoutedEventArgs e)
+        {
+            InformationBox.Clear();
+            if(!string.IsNullOrEmpty(NumberBox.Text))
+                InformationBox.Text = Inpect(int.Parse(NumberBox.Text));
         }
     }
 }

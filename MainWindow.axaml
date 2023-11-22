@@ -2,11 +2,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="700"
+        mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="700"
         x:Class="Calculator.MainWindow"
         Title="Calculator"
 		Width="450"
 		Height="700"
+		CanResize="False"
 		Background="LightGray"
 		WindowStartupLocation="CenterScreen">
 	<Window.Styles>
@@ -42,6 +43,7 @@
 					             FontSize="30"
 					             Margin="5,15,5,15"
 					             Foreground="Black"
+								 Background="White"
 								 IsReadOnly="true"
 								 TextAlignment="Left"
 								 BorderThickness="0">
@@ -52,6 +54,7 @@
 							 FontSize="30"
 							 Margin="5,15,5,15"
 							 Foreground="Black"
+							 Background="White"
 							 IsReadOnly="true"
 							 TextAlignment="Right"
 							 BorderThickness="0">
@@ -196,6 +199,7 @@
 								<TextBox FontSize="30"
 									 Margin="5,5,5,5"
 									 Foreground="Black"
+									 Background="White"
 									 IsReadOnly="true"
 									 TextAlignment="Left"
 									 BorderThickness="0"
@@ -205,14 +209,17 @@
 							<ComboBox Grid.Column="1"
 									  FontSize="25"
 									  Name="InputBaseSystemBox"
-									  SelectedIndex="0">
+									  SelectedIndex="0"
+									  Foreground="Black"
+									  Background="White">
 								<ComboBoxItem Content="Binary"></ComboBoxItem>
 								<ComboBoxItem Content="Octal"></ComboBoxItem>
 								<ComboBoxItem Content="Decimal"></ComboBoxItem>
-								<ComboBoxItem Content="Hexadicemal"></ComboBoxItem>
+								<ComboBoxItem Content="Hexadecimal"></ComboBoxItem>
 							</ComboBox>
 						</Grid>
-						<Label FontSize="30">
+						<Label FontSize="30"
+							   Foreground="Black">
 							equals to:
 						</Label>
 						<Grid ColumnDefinitions="*,Auto">
@@ -225,6 +232,7 @@
 								<TextBox FontSize="30"
 									 Margin="5,5,5,5"
 									 Foreground="Black"
+									 Background="White"
 									 IsReadOnly="true"
 									 TextAlignment="Left"
 									 BorderThickness="0"
@@ -234,11 +242,13 @@
 							<ComboBox Grid.Column="1"
 									  FontSize="25"
 									  Name="OutputBaseSystemBox"
-									  SelectedIndex="2">
+									  SelectedIndex="2"
+									  Foreground="Black"
+									  Background="White">
 								<ComboBoxItem Content="Binary"></ComboBoxItem>
 								<ComboBoxItem Content="Octal"></ComboBoxItem>
 								<ComboBoxItem Content="Decimal"></ComboBoxItem>
-								<ComboBoxItem Content="Hexadicemal"></ComboBoxItem>
+								<ComboBoxItem Content="Hexadecimal"></ComboBoxItem>
 							</ComboBox>
 						</Grid>
 					</StackPanel>
@@ -334,18 +344,24 @@
 							 TextAlignment="Left"
 							 IsReadOnly="True"
 							 BorderThickness="0"
-							 Margin="5,5,5,5">
+							 Margin="5,5,5,5"
+							 Foreground="Black"
+							 Background="White"
+							 Name="NumberBox">
 					</TextBox>
 					<ScrollViewer Grid.Row="1"
 								  HorizontalScrollBarVisibility="Disabled"
 								  VerticalScrollBarVisibility="Auto"
 								  Margin="5,5,5,15">
-						<TextBox FontSize="30"
+						<TextBox FontSize="25"
 							 TextAlignment="Left"
 							 IsReadOnly="True"
 							 BorderThickness="0"
 							 TextWrapping="Wrap"
-							 AcceptsReturn="True">
+							 AcceptsReturn="True"
+							 Foreground="Black"
+							 Background="White"
+							 Name="InformationBox">
 						</TextBox>
 					</ScrollViewer>
 				</Grid>
@@ -353,42 +369,54 @@
 					  ColumnDefinitions="*,*,*">
 					<Button Grid.Column="0"
 							Content="7"
-							CornerRadius="13,0,0,0"></Button>
+							CornerRadius="13,0,0,0"
+							Click="NumberButton_Click3"></Button>
 					<Button Grid.Column="1"
-							Content="8"></Button>
+							Content="8"
+							Click="NumberButton_Click3"></Button>
 					<Button Grid.Column="2"
 							Content="9"
-							CornerRadius="0,13,0,0"></Button>
+							CornerRadius="0,13,0,0"
+							Click="NumberButton_Click3"></Button>
 				</Grid>
 				<Grid Grid.Row="2"
 					  ColumnDefinitions="*,*,*">
 					<Button Grid.Column="0"
-							Content="4"></Button>
+							Content="4"
+							Click="NumberButton_Click3"></Button>
 					<Button Grid.Column="1"
-							Content="5"></Button>
+							Content="5"
+							Click="NumberButton_Click3"></Button>
 					<Button Grid.Column="2"
-							Content="6"></Button>
+							Content="6"
+							Click="NumberButton_Click3"></Button>
 				</Grid>
 				<Grid Grid.Row="3"
 					  ColumnDefinitions="*,*,*">
 					<Button Grid.Column="0"
-							Content="1"></Button>
+							Content="1"
+							Click="NumberButton_Click3"></Button>
 					<Button Grid.Column="1"
-							Content="2"></Button>
+							Content="2"
+							Click="NumberButton_Click3"></Button>
 					<Button Grid.Column="2"
-							Content="3"></Button>
+							Content="3"
+							Click="NumberButton_Click3"></Button>
 				</Grid>
 				<Grid Grid.Row="4"
 					  ColumnDefinitions="*,*,*">
 					<Button Grid.Column="0"
 							Content="⌫"
-							CornerRadius="0,0,0,13"></Button>
+							CornerRadius="0,0,0,13"
+							Click="BackSpaceButton_Click3"></Button>
 					<Button Grid.Column="1"
-							Content="0"></Button>
+							Content="0"
+							Click="NumberButton_Click3"></Button>
 					<Button Grid.Column="2"
 							Content="Inspect"
 							FontSize="28"
-							CornerRadius="0,0,13,0"></Button>
+							CornerRadius="0,0,13,0"
+							Click="InspectButton_Click"></Button>
 				</Grid>
 			</Grid>
 		</TabItem>
